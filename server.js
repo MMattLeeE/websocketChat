@@ -39,7 +39,7 @@ colors.sort(function(a,b) { return Math.random() > 0.5; } );
 //----------------------------------------------------------------------//
 var app = express();
 
-app.use('/',express.static(__dirname + '/public/'));
+app.use('/',express.static(__dirname + '/public'));
 
 var server = http.createServer(app);
 server.listen(webSocketsServerPort, function() {
