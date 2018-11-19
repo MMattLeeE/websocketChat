@@ -1,5 +1,7 @@
 var WebSocketServer = require('websocket').server;
-var http = require('http');
+//var http = require('http');
+var express = require('express');
+var path = require('path');
 
 var webSocketsServerPort = 1337;
 
@@ -30,7 +32,12 @@ colors.sort(function(a,b) { return Math.random() > 0.5; } );
 //WS rides on top of an http server. WS needs a http server created. 
 //The callback is blank as we wont be handling any http req or res.
 //----------------------------------------------------------------------//
-var server = http.createServer(function(request, response) {});
+var server = express();
+//http.createServer(function(request, response) {});
+server.get('/', Function(req, res) {
+    res.sendFile(path.join(__dirname +'/websocketChat.html'));
+});
+
 server.listen(webSocketsServerPort, function() {
   console.log((new Date()) + " Server is listening to port " + webSocketsServerPort);
 });
