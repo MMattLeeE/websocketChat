@@ -7,10 +7,8 @@ var path = require('path');
 
 //Heroku requires to listen to specific eviroment port. Script switches between the two
 //depending on if deploying locally or not:
-let webSocketsServerPort = process.env.PORT;
-if(webSocketsServerPort==null || webSocketsServerPort=="") {
-  webSocketsServerPort = 1337
-}
+var webSocketsServerPort = process.env.PORT || 1337;
+
 
 // is an array of objects with properties:
 //    time
@@ -41,9 +39,10 @@ colors.sort(function(a,b) { return Math.random() > 0.5; } );
 //----------------------------------------------------------------------//
 var app = express();
 
-app.use(express.static(__dirname));
+app.use(express.static(__dirname + '/'));
 
-var server = app.listen(webSocketsServerPort, function() {
+var server = http.createServer(app);
+var server.listen(webSocketsServerPort, function() {
   console.log((new Date()) + " Server is listening to port " + webSocketsServerPort);
 });
 
@@ -58,9 +57,7 @@ var server = app.listen(webSocketsServerPort, function() {
 // outputs: objects
 //    type: history, color, message
 //----------------------------------------------------------------------// 
-var wsServer = new WebSocketServer({
-  httpServer: server
-});
+var wsServer = new WebSocketServer({httpServer: server});
 
 // Below is the behavior of the WebSocket server. 
 // 'request' code defines what happens everytime someone tries 
