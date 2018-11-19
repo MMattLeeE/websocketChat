@@ -1,8 +1,8 @@
 var WebSocketServer = require('websocket').server;
-//var http = require('http');
+var http = require('http');
 var express = require('express');
 var path = require('path');
-
+//var fs = require('fs');
 var webSocketsServerPort = 1337;
 
 // is an array of objects with properties:
@@ -32,13 +32,11 @@ colors.sort(function(a,b) { return Math.random() > 0.5; } );
 //WS rides on top of an http server. WS needs a http server created. 
 //The callback is blank as we wont be handling any http req or res.
 //----------------------------------------------------------------------//
-var server = express();
-//http.createServer(function(request, response) {});
-server.get('/', Function(req, res) {
-    res.sendFile(path.join(__dirname +'/websocketChat.html'));
-});
+var app = express();
 
-server.listen(webSocketsServerPort, function() {
+app.use(express.static(__dirname + '/public'));
+
+var server = app.listen(webSocketsServerPort, function() {
   console.log((new Date()) + " Server is listening to port " + webSocketsServerPort);
 });
 
@@ -63,6 +61,7 @@ var wsServer = new WebSocketServer({
 wsServer.on('request', function(request) {
   //first establish and accept a connection:
   console.log((new Date()) + ' Connection from origin '+ request.origin + '.');
+  
   var connection = request.accept(null, request.origin);
   // Saving the index of the client connection to remove it when they disconnect; 
   // .push returns the length of the array clients
