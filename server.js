@@ -42,7 +42,7 @@ var app = express();
 app.use(express.static(__dirname + '/'));
 
 var server = http.createServer(app);
-var server.listen(webSocketsServerPort, function() {
+server.listen(webSocketsServerPort, function() {
   console.log((new Date()) + " Server is listening to port " + webSocketsServerPort);
 });
 
