@@ -3,7 +3,14 @@ var http = require('http');
 var express = require('express');
 var path = require('path');
 //var fs = require('fs');
-var webSocketsServerPort = 1337;
+
+
+//Heroku requires to listen to specific eviroment port. Script switches between the two
+//depending on if deploying locally or not:
+let webSocketsServerPort = process.env.PORT;
+if(webSocketsServerPort==null || webSocketsServerPort=="") {
+  webSocketsServerPort = 1337
+}
 
 // is an array of objects with properties:
 //    time
